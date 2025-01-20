@@ -1,10 +1,33 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import eslintPluginJest from 'eslint-plugin-jest';
 
-
-/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
-  {languageOptions: { globals: globals.browser }},
-  pluginJs.configs.recommended,
+    {
+        files: ['*.js'], // Apply to all .js files
+        languageOptions: {
+            ecmaVersion: 2021,
+            sourceType: 'module',
+        },
+        rules: {
+            // Add your general rules here
+        },
+    },
+    {
+        files: ['*.test.js'], // Apply specifically to test files
+        plugins: {
+            jest: eslintPluginJest,
+        },
+        rules: {
+            // Enable Jest rules for test files
+            'jest/no-disabled-tests': 'warn',
+            'jest/no-focused-tests': 'error',
+            'jest/no-identical-title': 'error',
+            'jest/valid-expect': 'error',
+        },
+        languageOptions: {
+            globals: {
+                test: true,
+                expect: true,
+            },
+        },
+    },
 ];
